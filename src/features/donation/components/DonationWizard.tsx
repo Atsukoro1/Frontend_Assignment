@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { Stepper } from "@/components/ui/Stepper";
 
 import { useDonationStore } from "../store";
+import { DonorsStep } from "./DonorsStep";
 import { HelpStep } from "./HelpStep";
 
 const stepEnter = keyframes`
@@ -49,7 +50,10 @@ export function DonationWizard() {
   return (
     <Card>
       <Stepper steps={steps} current={step} aria-label={t("a11y.stepper")} />
-      <StepPane key={step}>{step === 0 ? <HelpStep headingRef={headingRef} /> : null}</StepPane>
+      <StepPane key={step}>
+        {step === 0 ? <HelpStep headingRef={headingRef} /> : null}
+        {step === 1 ? <DonorsStep headingRef={headingRef} /> : null}
+      </StepPane>
     </Card>
   );
 }

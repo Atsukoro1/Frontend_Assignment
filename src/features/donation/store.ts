@@ -37,6 +37,8 @@ interface DonationStore {
   donors: DonorDraft[];
   saveHelpStep(values: { helpType: HelpType; shelterID: number | null; amount: string }): void;
   saveDonorsStep(donors: DonorDraft[]): void;
+  /** Persists edits without advancing — used when navigating back. */
+  updateDonors(donors: DonorDraft[]): void;
   goBack(): void;
   reset(): void;
 }
@@ -55,6 +57,7 @@ export const useDonationStore = create<DonationStore>()((set) => ({
     set((state) => ({ ...values, step: Math.min(state.step + 1, WIZARD_STEP_COUNT - 1) })),
   saveDonorsStep: (donors) =>
     set((state) => ({ donors, step: Math.min(state.step + 1, WIZARD_STEP_COUNT - 1) })),
+  updateDonors: (donors) => set({ donors }),
   goBack: () => set((state) => ({ step: Math.max(0, state.step - 1) })),
   reset: () => set({ ...initialState, donors: [createEmptyDonor()] }),
 }));
