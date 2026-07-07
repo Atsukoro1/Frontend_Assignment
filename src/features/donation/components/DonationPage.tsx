@@ -5,6 +5,8 @@ import styled from "styled-components";
 
 import { media } from "@/styles/theme";
 
+import { StatsBanner } from "./StatsBanner";
+
 const Intro = styled.section`
   text-align: center;
   margin-bottom: ${({ theme }) => theme.space.xl};
@@ -35,6 +37,7 @@ export function DonationPage() {
         <Title>{t("home.title")}</Title>
         <Lead>{t("home.lead")}</Lead>
       </Intro>
+      <StatsBanner />
     </>
   );
 }
