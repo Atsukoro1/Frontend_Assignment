@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { media } from "@/styles/theme";
 
+import { DonationWizard } from "./DonationWizard";
 import { StatsBanner } from "./StatsBanner";
 
 const Intro = styled.section`
@@ -38,6 +39,7 @@ export function DonationPage() {
         <Lead>{t("home.lead")}</Lead>
       </Intro>
       <StatsBanner />
+      <DonationWizard />
     </>
   );
 }
