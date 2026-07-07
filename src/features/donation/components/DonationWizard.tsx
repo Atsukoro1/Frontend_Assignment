@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled, { keyframes } from "styled-components";
 
@@ -8,8 +8,10 @@ import { Card } from "@/components/ui/Card";
 import { Stepper } from "@/components/ui/Stepper";
 
 import { useDonationStore } from "../store";
+import { ConfirmStep } from "./ConfirmStep";
 import { DonorsStep } from "./DonorsStep";
 import { HelpStep } from "./HelpStep";
+import { SuccessScreen } from "./SuccessScreen";
 
 const stepEnter = keyframes`
   from {
@@ -29,6 +31,8 @@ const StepPane = styled.div`
 export function DonationWizard() {
   const { t } = useTranslation();
   const step = useDonationStore((state) => state.step);
+  const reset = useDonationStore((state) => state.reset);
+  const [submitted, setSubmitted] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const isFirstRender = useRef(true);
 
@@ -39,7 +43,20 @@ export function DonationWizard() {
       return;
     }
     headingRef.current?.focus();
-  }, [step]);
+  }, [step, submitted]);
+
+  const handleSubmitted = () => {
+    setSubmitted(true);
+    reset();
+  };
+
+  if (submitted) {
+    return (
+      <Card>
+        <SuccessScreen headingRef={headingRef} onRestart={() => setSubmitted(false)} />
+      </Card>
+    );
+  }
 
   const steps = [
     t("wizard.steps.help"),
@@ -53,6 +70,7 @@ export function DonationWizard() {
       <StepPane key={step}>
         {step === 0 ? <HelpStep headingRef={headingRef} /> : null}
         {step === 1 ? <DonorsStep headingRef={headingRef} /> : null}
+        {step === 2 ? <ConfirmStep headingRef={headingRef} onSuccess={handleSubmitted} /> : null}
       </StepPane>
     </Card>
   );
