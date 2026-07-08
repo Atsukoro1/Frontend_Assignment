@@ -16,24 +16,35 @@ export const AMOUNT_OPTIONS = [5, 10, 20, 30, 50, 100] as const;
 
 const PHONE_PREFIX_VALUES = PHONE_PREFIXES.map((p) => p.prefix) as [PhonePrefix, ...PhonePrefix[]];
 
+/**
+ * Amount is validated on the field itself (not in the object-level
+ * refinement) so the error shows even while other fields are invalid —
+ * cross-field refinements only run once the base object parses.
+ */
+const amountSchema = z
+  .string()
+  .trim()
+  .min(1, "validation.amountRequired")
+  .superRefine((value, ctx) => {
+    const parsed = parseAmount(value);
+    if (parsed === null) {
+      ctx.addIssue({ code: "custom", message: "validation.amountInvalid" });
+    } else if (parsed <= 0) {
+      ctx.addIssue({ code: "custom", message: "validation.amountPositive" });
+    }
+  });
+
 /** Step 1 — form of help, shelter and amount (raw string, comma allowed). */
 export const helpStepSchema = z
   .object({
     helpType: z.enum(HELP_TYPES, { error: "validation.helpType" }),
     shelterID: z.number().int().positive().nullable(),
-    amount: z.string().trim().min(1, "validation.amountRequired"),
+    amount: amountSchema,
   })
   .superRefine((data, ctx) => {
+    // Runs only when the base object parses, i.e. a help type is chosen.
     if (data.helpType === "shelter" && data.shelterID === null) {
       ctx.addIssue({ code: "custom", path: ["shelterID"], message: "validation.shelterRequired" });
-    }
-    if (data.amount.trim().length > 0) {
-      const parsed = parseAmount(data.amount);
-      if (parsed === null) {
-        ctx.addIssue({ code: "custom", path: ["amount"], message: "validation.amountInvalid" });
-      } else if (parsed <= 0) {
-        ctx.addIssue({ code: "custom", path: ["amount"], message: "validation.amountPositive" });
-      }
     }
   });
 
