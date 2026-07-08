@@ -38,7 +38,14 @@ to the network.
 
 ## Design
 
-There was no Figma — the design is custom:
+The component structure and step flow follow the official Figma assignment file
+(Frontend Assignment 2.0): inline numbered stepper with check marks, segmented
+help-type toggle, prominent centered amount input above the preset chips, flag
+dropdown for the phone prefix, flat label/value summary rows on the confirmation
+step and arrowed back/continue buttons.
+
+The visual identity is deliberately custom (the Figma file's indigo-on-white
+look was not copied):
 
 - **Palette**: warm browns — cream background `#FAF6F1`, primary brown `#8C5E3C`,
   espresso headings `#3E2C22`, terracotta errors and muted green success, all chosen to
