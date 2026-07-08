@@ -1,7 +1,7 @@
-# GoodBoy — donačný formulár pre psie útulky 🐾
+# GoodBoy — darovací formulář pro psí útulky 🐾
 
 A multi-step donation form for the fictional **GoodBoy** foundation supporting Slovak dog
-shelters, built as the GoodRequest frontend assignment. The whole UI is in Slovak.
+shelters, built as the GoodRequest frontend assignment. The whole UI is in Czech.
 
 ## What it does
 
@@ -30,7 +30,7 @@ pnpm lint
 | **Zustand**                                     | Small typed store for wizard progress and the form draft (`src/features/donation/store.ts`). Nothing sensitive is persisted.                                                                |
 | **react-hook-form + Zod**                       | One Zod schema per step + a merged schema mirroring the POST contract exactly (`schemas.ts`); the payload is re-validated against it right before submitting. Error messages are i18n keys. |
 | **styled-components**                           | SWC transform + SSR registry per the Next docs; all design tokens live in a single typed theme (`src/styles/theme.ts`) — no magic hex values in components.                                 |
-| **i18next / react-i18next**                     | Every user-facing string lives in `src/locales/sk/common.json`, keys structured by feature; translation keys are type-checked.                                                              |
+| **i18next / react-i18next**                     | Every user-facing string lives in `src/locales/cs/common.json`, keys structured by feature; translation keys are type-checked.                                                              |
 
 The API layer (`src/api/`) is fully typed from the OpenAPI spec at
 `https://frontend-assignment-api.goodrequest.dev/apidoc/` and is the only place that talks
@@ -51,7 +51,7 @@ look was not copied):
   espresso headings `#3E2C22`, terracotta errors and muted green success, all chosen to
   pass WCAG AA on their backgrounds (cream-on-brown buttons ≈ 5.2:1).
 - **Type**: Nunito (rounded terminals fit the friendly mood) via `next/font`, with the
-  `latin-ext` subset for Slovak diacritics.
+  `latin-ext` subset for Czech diacritics.
 - **Shape**: generous radii (cards 20–24 px, inputs 14 px, pills fully rounded) and soft
   diffuse shadows instead of hard borders.
 - **Dog personality, lightly**: paw-print stepper markers, a paw favicon and OG image,
@@ -84,7 +84,7 @@ look was not copied):
 - Shelter list failure shows an error with a retry button; stats failure degrades quietly.
 - Double-submit prevention: the submit button is disabled while the mutation is pending.
 - Server errors: human-readable API messages are shown verbatim; technical `joi.*`
-  validation identifiers fall back to a generic Slovak error banner.
+  validation identifiers fall back to a generic Czech error banner.
 
 ## Assumptions
 

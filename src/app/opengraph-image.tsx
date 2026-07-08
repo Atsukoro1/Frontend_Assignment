@@ -1,9 +1,9 @@
 import { ImageResponse } from "next/og";
 
-import sk from "@/locales/sk/common.json";
+import cs from "@/locales/cs/common.json";
 import { theme } from "@/styles/theme";
 
-export const alt = sk.seo.ogAlt;
+export const alt = cs.seo.ogAlt;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -43,7 +43,7 @@ export default function OpengraphImage() {
           color: theme.colors.heading,
         }}
       >
-        {sk.app.name}
+        {cs.app.name}
       </div>
       <div
         style={{
@@ -51,7 +51,7 @@ export default function OpengraphImage() {
           color: theme.colors.primary,
         }}
       >
-        {sk.app.tagline}
+        {cs.app.tagline}
       </div>
     </div>,
     { ...size, emoji: "twemoji" },

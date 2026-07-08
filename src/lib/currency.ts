@@ -1,4 +1,4 @@
-const eurFormatter = new Intl.NumberFormat("sk-SK", {
+const eurFormatter = new Intl.NumberFormat("cs-CZ", {
   style: "currency",
   currency: "EUR",
   minimumFractionDigits: 0,

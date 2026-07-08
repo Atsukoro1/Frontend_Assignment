@@ -1,0 +1,145 @@
+{
+  "app": {
+    "name": "GoodBoy",
+    "tagline": "Pomáháme slovenským psím útulkům",
+    "footerNote": "GoodBoy, o. z. — pomáháme opuštěným pejskům najít nový domov.",
+    "footerMadeWith": "Vytvořeno s láskou ke psům"
+  },
+  "nav": {
+    "donate": "Přispět",
+    "contact": "Kontakt",
+    "skipToContent": "Přeskočit na obsah"
+  },
+  "seo": {
+    "siteName": "GoodBoy",
+    "home": {
+      "title": "GoodBoy — přispějte psím útulkům",
+      "description": "Podpořte slovenské psí útulky jednorázovým příspěvkem. Nadace GoodBoy pomáhá opuštěným pejskům najít nový domov."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "description": "Kontaktní údaje nadace GoodBoy — adresa, e-mail, telefon a IČO."
+    },
+    "ogAlt": "GoodBoy — pomáháme slovenským psím útulkům"
+  },
+  "home": {
+    "title": "Pomozte pejskům v útulcích",
+    "lead": "Váš příspěvek znamená plnou misku, teplý pelíšek a šanci na nový domov. Stačí pár kroků."
+  },
+  "stats": {
+    "heading": "Společně už pomáháme",
+    "collectedLabel": "Vybraná částka",
+    "donorsLabel": "Počet dárců",
+    "error": "Statistiky se teď nepodařilo načíst."
+  },
+  "wizard": {
+    "stepLabel": "Krok {{current}} z {{total}}",
+    "steps": {
+      "help": "Výběr útulku",
+      "details": "Osobní údaje",
+      "confirm": "Potvrzení"
+    },
+    "next": "Pokračovat",
+    "back": "Zpět",
+    "submit": "Odeslat formulář",
+    "submitting": "Odesíláme…"
+  },
+  "help": {
+    "heading": "Vyberte si možnost, jak chcete pomoct",
+    "helpTypeLegend": "Forma pomoci",
+    "optionShelter": {
+      "title": "Přispět konkrétnímu útulku",
+      "description": "Celý příspěvek poputuje útulku, který si vyberete."
+    },
+    "optionGeneral": {
+      "title": "Přispět celé nadaci",
+      "description": "Příspěvek rozdělíme mezi útulky, které to nejvíce potřebují."
+    },
+    "shelterLabel": "Útulek",
+    "optionalTag": "nepovinné",
+    "shelterPlaceholder": "Vyberte útulek ze seznamu",
+    "shelterLoadError": "Seznam útulků se nepodařilo načíst.",
+    "sheltersEmpty": "Momentálně nejsou k dispozici žádné útulky.",
+    "retry": "Zkusit znovu",
+    "amountLegend": "Částka, kterou chci přispět",
+    "customAmountLabel": "Vlastní částka",
+    "customAmountPlaceholder": "např. 25"
+  },
+  "donors": {
+    "heading": "Potřebujeme od Vás pár informací",
+    "donorTitle": "Dárce č. {{index}}",
+    "addDonor": "Přidat dalšího dárce",
+    "removeDonor": "Odstranit dárce č. {{index}}",
+    "addDonorHint": "Přispíváte společně? Přidejte údaje dalšího dárce.",
+    "firstName": "Jméno",
+    "lastName": "Příjmení",
+    "email": "E-mail",
+    "phone": "Telefonní číslo",
+    "optionalTag": "nepovinné",
+    "phonePlaceholder": "903 123 456",
+    "phoneHint": "Číslo bez předvolby, např. 903 123 456.",
+    "prefixLegend": "Telefonní předvolba",
+    "prefixSk": "Slovensko +421",
+    "prefixCz": "Česko +420"
+  },
+  "confirm": {
+    "heading": "Zkontrolujte zadané údaje",
+    "summaryLabel": "Shrnutí",
+    "helpTypeLabel": "Forma pomoci",
+    "helpShelter": "Příspěvek konkrétnímu útulku",
+    "helpGeneral": "Příspěvek celé nadaci",
+    "shelterLabel": "Útulek",
+    "noShelter": "Bez konkrétního útulku",
+    "amountLabel": "Částka příspěvku",
+    "donorLabel": "Dárce č. {{index}}",
+    "nameLabel": "Jméno a příjmení",
+    "emailLabel": "E-mail",
+    "phoneLabel": "Telefonní číslo",
+    "consentLabel": "Souhlasím se zpracováním svých osobních údajů za účelem evidence příspěvku."
+  },
+  "success": {
+    "heading": "Děkujeme!",
+    "message": "Váš příspěvek byl úspěšně odeslán. Děkujeme, že pomáháte pejskům 🐾",
+    "again": "Přispět znovu"
+  },
+  "errors": {
+    "submitFailed": "Příspěvek se nepodařilo odeslat. Zkontrolujte prosím údaje a zkuste to znovu.",
+    "network": "Nepodařilo se spojit se serverem. Zkontrolujte připojení a zkuste to znovu."
+  },
+  "validation": {
+    "helpType": "Vyberte si formu pomoci.",
+    "shelterRequired": "Vyberte útulek, kterému chcete přispět.",
+    "amountRequired": "Vyberte nebo zadejte částku příspěvku.",
+    "amountInvalid": "Zadejte částku jako číslo, např. 25 nebo 12,50.",
+    "amountPositive": "Částka musí být větší než 0 €.",
+    "firstNameRequired": "Jméno je povinné.",
+    "firstNameLength": "Jméno musí mít 2 až 20 znaků.",
+    "lastNameRequired": "Příjmení je povinné.",
+    "lastNameLength": "Příjmení musí mít 2 až 30 znaků.",
+    "emailRequired": "E-mail je povinný.",
+    "emailInvalid": "Zadejte platnou e-mailovou adresu.",
+    "phoneInvalid": "Zadejte platné telefonní číslo — 9 číslic bez předvolby.",
+    "consentRequired": "K odeslání příspěvku potřebujeme váš souhlas."
+  },
+  "contact": {
+    "heading": "Kontaktujte nás",
+    "lead": "Máte otázku k příspěvkům, chcete pomoct jako dobrovolník nebo adoptovat pejska? Ozvěte se nám.",
+    "orgName": "GoodBoy, o. z.",
+    "addressLabel": "Adresa",
+    "addressStreet": "Psia 12",
+    "addressCity": "811 01 Bratislava",
+    "emailLabel": "E-mail",
+    "email": "ahoj@goodboy.sk",
+    "phoneLabel": "Telefon",
+    "phone": "+421 900 123 456",
+    "icoLabel": "IČO",
+    "ico": "52 123 456",
+    "hoursLabel": "Rádi vás vyslechneme",
+    "hours": "pondělí – pátek, 9:00 – 17:00",
+    "note": "Každé euro i každý dotaz pomáhá. Děkujeme, že myslíte na pejsky v útulcích."
+  },
+  "a11y": {
+    "loading": "Načítá se…",
+    "stepper": "Průběh formuláře"
+  }
+}

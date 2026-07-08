@@ -3,7 +3,7 @@ import { Nunito } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { AppShell } from "@/components/layout/AppShell";
-import sk from "@/locales/sk/common.json";
+import cs from "@/locales/cs/common.json";
 import { StyledComponentsRegistry } from "@/styles/StyledComponentsRegistry";
 import { theme } from "@/styles/theme";
 
@@ -21,16 +21,16 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: sk.seo.home.title,
-    template: `%s · ${sk.seo.siteName}`,
+    default: cs.seo.home.title,
+    template: `%s · ${cs.seo.siteName}`,
   },
-  description: sk.seo.home.description,
+  description: cs.seo.home.description,
   openGraph: {
     type: "website",
-    locale: "sk_SK",
-    siteName: sk.seo.siteName,
-    title: sk.seo.home.title,
-    description: sk.seo.home.description,
+    locale: "cs_CZ",
+    siteName: cs.seo.siteName,
+    title: cs.seo.home.title,
+    description: cs.seo.home.description,
   },
 };
 
@@ -40,7 +40,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="sk" className={nunito.variable}>
+    <html lang="cs" className={nunito.variable}>
       <body>
         <StyledComponentsRegistry>
           <Providers>

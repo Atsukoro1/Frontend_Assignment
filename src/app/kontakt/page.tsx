@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
 import { ContactPage } from "@/features/contact/components/ContactPage";
-import sk from "@/locales/sk/common.json";
+import cs from "@/locales/cs/common.json";
 
 export const metadata: Metadata = {
-  title: sk.seo.contact.title,
-  description: sk.seo.contact.description,
+  title: cs.seo.contact.title,
+  description: cs.seo.contact.description,
   openGraph: {
-    title: `${sk.seo.contact.title} · ${sk.seo.siteName}`,
-    description: sk.seo.contact.description,
+    title: `${cs.seo.contact.title} · ${cs.seo.siteName}`,
+    description: cs.seo.contact.description,
   },
 };
 
