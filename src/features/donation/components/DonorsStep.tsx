@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleAlert, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, CircleAlert, Plus, Trash2 } from "lucide-react";
 import { useId, type Ref } from "react";
 import { Controller, useFieldArray, useForm, type Control } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/fieldStyles";
 import { CzechFlag, SlovakFlag } from "@/components/ui/flags";
 import { TextField } from "@/components/ui/TextField";
-import { VisuallyHidden } from "@/components/ui/VisuallyHidden";
 import { PHONE_PREFIXES, type PhonePrefix } from "@/lib/phone";
 import { useValidationMessage } from "@/lib/useValidationMessage";
 import { media } from "@/styles/theme";
@@ -62,57 +61,40 @@ const PhoneRow = styled.div`
   gap: ${({ theme }) => theme.space.xs};
 `;
 
-const PrefixGroup = styled.div`
-  display: inline-flex;
-  flex-shrink: 0;
-  border-radius: ${({ theme }) => theme.radii.md};
-  border: 1.5px solid ${({ theme }) => theme.colors.borderStrong};
-  overflow: hidden;
-  background: ${({ theme }) => theme.colors.surface};
-`;
-
-const PrefixOption = styled.div`
+const PrefixShell = styled.div`
   position: relative;
-  display: flex;
-
-  & + & {
-    border-left: 1.5px solid ${({ theme }) => theme.colors.border};
-  }
+  flex-shrink: 0;
 `;
 
-const PrefixLabel = styled.label`
-  display: inline-flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.space.xxs};
-  padding: ${({ theme }) => `${theme.space.sm} ${theme.space.xs}`};
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+const PrefixSelect = styled.select<{ $invalid?: boolean }>`
+  ${inputStyles};
+  appearance: none;
+  width: auto;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.textMuted};
-  cursor: pointer;
-  transition:
-    background ${({ theme }) => theme.transitions.fast},
-    color ${({ theme }) => theme.transitions.fast};
+  padding-left: 2.6rem;
+  padding-right: 2rem;
+`;
+
+const PrefixFlag = styled.span`
+  position: absolute;
+  left: ${({ theme }) => theme.space.sm};
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  pointer-events: none;
 
   svg {
     border-radius: 2px;
   }
 `;
 
-const PrefixRadio = styled.input`
+const PrefixChevron = styled(ChevronDown)`
   position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-
-  &:checked + ${PrefixLabel} {
-    background: ${({ theme }) => theme.colors.primarySoft};
-    color: ${({ theme }) => theme.colors.heading};
-  }
-
-  &:focus-visible + ${PrefixLabel} {
-    outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: -3px;
-  }
+  right: ${({ theme }) => theme.space.xs};
+  top: 50%;
+  transform: translateY(-50%);
+  color: ${({ theme }) => theme.colors.textMuted};
+  pointer-events: none;
 `;
 
 const PhoneInput = styled.input<{ $invalid?: boolean }>`
@@ -152,32 +134,31 @@ function PhoneField({ index, control, error }: PhoneFieldProps) {
         <Controller
           control={control}
           name={`donors.${index}.phonePrefix`}
-          render={({ field }) => (
-            <PrefixGroup role="radiogroup" aria-label={t("donors.prefixLegend")}>
-              {PHONE_PREFIXES.map((option) => {
-                const Flag = FLAG_BY_PREFIX[option.prefix];
-                const optionId = `${inputId}-prefix-${option.prefix}`;
-                return (
-                  <PrefixOption key={option.prefix}>
-                    <PrefixRadio
-                      type="radio"
-                      id={optionId}
-                      name={field.name}
-                      value={option.prefix}
-                      checked={field.value === option.prefix}
-                      onChange={() => field.onChange(option.prefix)}
-                      onBlur={field.onBlur}
-                    />
-                    <PrefixLabel htmlFor={optionId}>
-                      <Flag />
-                      <VisuallyHidden>{t(option.labelKey)} </VisuallyHidden>
-                      <span aria-hidden="true">{option.prefix}</span>
-                    </PrefixLabel>
-                  </PrefixOption>
-                );
-              })}
-            </PrefixGroup>
-          )}
+          render={({ field }) => {
+            const Flag = FLAG_BY_PREFIX[field.value];
+            return (
+              <PrefixShell>
+                <PrefixSelect
+                  aria-label={t("donors.prefixLegend")}
+                  name={field.name}
+                  ref={field.ref}
+                  value={field.value}
+                  onBlur={field.onBlur}
+                  onChange={(event) => field.onChange(event.target.value as PhonePrefix)}
+                >
+                  {PHONE_PREFIXES.map((option) => (
+                    <option key={option.prefix} value={option.prefix}>
+                      {option.prefix}
+                    </option>
+                  ))}
+                </PrefixSelect>
+                <PrefixFlag aria-hidden="true">
+                  <Flag />
+                </PrefixFlag>
+                <PrefixChevron size={16} aria-hidden="true" />
+              </PrefixShell>
+            );
+          }}
         />
         <Controller
           control={control}
@@ -299,10 +280,14 @@ export function DonorsStep({ headingRef }: { headingRef: Ref<HTMLHeadingElement>
       </AddDonorRow>
 
       <ButtonRow>
-        <Button type="button" $variant="ghost" onClick={onBack}>
+        <Button type="button" $variant="muted" onClick={onBack}>
+          <ArrowLeft size={16} aria-hidden="true" />
           {t("wizard.back")}
         </Button>
-        <Button type="submit">{t("wizard.next")}</Button>
+        <Button type="submit">
+          {t("wizard.next")}
+          <ArrowRight size={16} aria-hidden="true" />
+        </Button>
       </ButtonRow>
     </StepForm>
   );
