@@ -1,7 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, type Ref } from "react";
+import { ArrowLeft } from "lucide-react";
+import { Fragment, useState, type ReactNode, type Ref } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
@@ -18,15 +19,17 @@ import { buildContributePayload } from "../payload";
 import { consentStepSchema, type ConsentStepValues } from "../schemas";
 import { useDonationStore } from "../store";
 import { describeSubmitError } from "../submitError";
-import { ButtonRow, StepForm, StepHeading } from "./stepShared";
+import { ButtonRow, Legend, StepForm, StepHeading } from "./stepShared";
+
+const SummaryBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Summary = styled.dl`
   display: flex;
   flex-direction: column;
   margin: 0;
-  border: 1.5px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.lg};
-  overflow: hidden;
 `;
 
 const SummaryRow = styled.div`
@@ -34,16 +37,12 @@ const SummaryRow = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   gap: ${({ theme }) => `${theme.space.xxs} ${theme.space.md}`};
-  padding: ${({ theme }) => `${theme.space.sm} ${theme.space.md}`};
-
-  &:nth-child(odd) {
-    background: ${({ theme }) => theme.colors.surfaceMuted};
-  }
+  padding: ${({ theme }) => `${theme.space.xs} 0`};
 `;
 
 const SummaryLabel = styled.dt`
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  font-weight: 700;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
@@ -54,21 +53,29 @@ const SummaryValue = styled.dd`
   text-align: right;
 `;
 
-const DonorList = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.space.xxs};
+const Divider = styled.hr`
+  border: none;
+  border-top: 1.5px solid ${({ theme }) => theme.colors.border};
+  margin: ${({ theme }) => `${theme.space.sm} 0`};
 `;
 
-const DonorContact = styled.span`
-  display: block;
+const DonorTag = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.xs};
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.textMuted};
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: ${({ theme }) => theme.colors.primary};
+  margin-bottom: ${({ theme }) => theme.space.xxs};
 `;
+
+function Row({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <SummaryRow>
+      <SummaryLabel>{label}</SummaryLabel>
+      <SummaryValue>{children}</SummaryValue>
+    </SummaryRow>
+  );
+}
 
 interface ConfirmStepProps {
   headingRef: Ref<HTMLHeadingElement>;
@@ -128,40 +135,39 @@ export function ConfirmStep({ headingRef, onSuccess }: ConfirmStepProps) {
         {t("confirm.heading")}
       </StepHeading>
 
-      <Summary>
-        <SummaryRow>
-          <SummaryLabel>{t("confirm.helpTypeLabel")}</SummaryLabel>
-          <SummaryValue>
+      <SummaryBlock>
+        <Legend as="h3">{t("confirm.summaryLabel")}</Legend>
+        <Summary>
+          <Row label={t("confirm.helpTypeLabel")}>
             {helpType === "shelter" ? t("confirm.helpShelter") : t("confirm.helpGeneral")}
-          </SummaryValue>
-        </SummaryRow>
-        <SummaryRow>
-          <SummaryLabel>{t("confirm.shelterLabel")}</SummaryLabel>
-          <SummaryValue>{shelterName ?? t("confirm.noShelter")}</SummaryValue>
-        </SummaryRow>
-        <SummaryRow>
-          <SummaryLabel>{t("confirm.amountLabel")}</SummaryLabel>
-          <SummaryValue>{amountValue === null ? "—" : formatEur(amountValue)}</SummaryValue>
-        </SummaryRow>
-        <SummaryRow>
-          <SummaryLabel>{t("confirm.donorsLabel")}</SummaryLabel>
-          <SummaryValue>
-            <DonorList>
-              {donors.map((donor, index) => (
-                <li key={index}>
-                  {donor.firstName} {donor.lastName}
-                  <DonorContact>
-                    {donor.email}
-                    {donor.phoneNumber.trim() !== ""
-                      ? ` · ${toInternationalPhone(donor.phonePrefix, donor.phoneNumber)}`
-                      : ""}
-                  </DonorContact>
-                </li>
-              ))}
-            </DonorList>
-          </SummaryValue>
-        </SummaryRow>
-      </Summary>
+          </Row>
+          <Row label={t("confirm.shelterLabel")}>{shelterName ?? t("confirm.noShelter")}</Row>
+          <Row label={t("confirm.amountLabel")}>
+            {amountValue === null ? "—" : formatEur(amountValue)}
+          </Row>
+        </Summary>
+
+        {donors.map((donor, index) => (
+          <Fragment key={index}>
+            <Divider />
+            {donors.length > 1 ? (
+              <DonorTag>{t("confirm.donorLabel", { index: index + 1 })}</DonorTag>
+            ) : null}
+            <Summary>
+              <Row label={t("confirm.nameLabel")}>
+                {donor.firstName} {donor.lastName}
+              </Row>
+              <Row label={t("confirm.emailLabel")}>{donor.email}</Row>
+              <Row label={t("confirm.phoneLabel")}>
+                {donor.phoneNumber.trim() !== ""
+                  ? toInternationalPhone(donor.phonePrefix, donor.phoneNumber)
+                  : "—"}
+              </Row>
+            </Summary>
+          </Fragment>
+        ))}
+        <Divider />
+      </SummaryBlock>
 
       <CheckboxField
         label={t("confirm.consentLabel")}
@@ -176,7 +182,13 @@ export function ConfirmStep({ headingRef, onSuccess }: ConfirmStepProps) {
       ) : null}
 
       <ButtonRow>
-        <Button type="button" $variant="ghost" onClick={goBack} disabled={submitDonation.isPending}>
+        <Button
+          type="button"
+          $variant="muted"
+          onClick={goBack}
+          disabled={submitDonation.isPending}
+        >
+          <ArrowLeft size={16} aria-hidden="true" />
           {t("wizard.back")}
         </Button>
         <Button type="submit" disabled={submitDonation.isPending}>

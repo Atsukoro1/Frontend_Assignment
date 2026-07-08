@@ -41,7 +41,7 @@
     },
     "next": "Pokračovať",
     "back": "Späť",
-    "submit": "Odoslať príspevok",
+    "submit": "Odoslať formulár",
     "submitting": "Odosielame…"
   },
   "help": {
@@ -83,14 +83,18 @@
     "prefixCz": "Česko +420"
   },
   "confirm": {
-    "heading": "Skontrolujte svoje údaje",
+    "heading": "Skontrolujte si zadané údaje",
+    "summaryLabel": "Zhrnutie",
     "helpTypeLabel": "Forma pomoci",
     "helpShelter": "Príspevok konkrétnemu útulku",
     "helpGeneral": "Príspevok celej nadácii",
     "shelterLabel": "Útulok",
     "noShelter": "Bez konkrétneho útulku",
     "amountLabel": "Suma príspevku",
-    "donorsLabel": "Darcovia",
+    "donorLabel": "Darca č. {{index}}",
+    "nameLabel": "Meno a priezvisko",
+    "emailLabel": "E-mail",
+    "phoneLabel": "Telefónne číslo",
     "consentLabel": "Súhlasím so spracovaním svojich osobných údajov na účely evidencie príspevku."
   },
   "success": {
