@@ -54,8 +54,8 @@ look was not copied):
   `latin-ext` subset for Czech diacritics.
 - **Shape**: generous radii (cards 20–24 px, inputs 14 px, pills fully rounded) and soft
   diffuse shadows instead of hard borders.
-- **Dog personality, lightly**: paw-print stepper markers, a paw favicon and OG image,
-  and a gentle paw-drift animation on the success screen — content first.
+- **Dog personality, lightly**: a paw favicon and OG image, and a gentle paw-drift
+  animation on the success screen — content first.
 - **Motion**: 150–300 ms ease-out transitions (step slide-in, hover lift, error enter),
   cream shimmer skeletons; everything respects `prefers-reduced-motion`.
 
