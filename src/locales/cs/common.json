@@ -48,12 +48,10 @@
     "heading": "Vyberte si možnost, jak chcete pomoct",
     "helpTypeLegend": "Forma pomoci",
     "optionShelter": {
-      "title": "Přispět konkrétnímu útulku",
-      "description": "Celý příspěvek poputuje útulku, který si vyberete."
+      "title": "Přispět konkrétnímu útulku"
     },
     "optionGeneral": {
-      "title": "Přispět celé nadaci",
-      "description": "Příspěvek rozdělíme mezi útulky, které to nejvíce potřebují."
+      "title": "Přispět celé nadaci"
     },
     "shelterLabel": "Útulek",
     "optionalTag": "nepovinné",
@@ -62,8 +60,7 @@
     "sheltersEmpty": "Momentálně nejsou k dispozici žádné útulky.",
     "retry": "Zkusit znovu",
     "amountLegend": "Částka, kterou chci přispět",
-    "customAmountLabel": "Vlastní částka",
-    "customAmountPlaceholder": "např. 25"
+    "customAmountLabel": "Vlastní částka"
   },
   "donors": {
     "heading": "Potřebujeme od Vás pár informací",
@@ -78,9 +75,7 @@
     "optionalTag": "nepovinné",
     "phonePlaceholder": "903 123 456",
     "phoneHint": "Číslo bez předvolby, např. 903 123 456.",
-    "prefixLegend": "Telefonní předvolba",
-    "prefixSk": "Slovensko +421",
-    "prefixCz": "Česko +420"
+    "prefixLegend": "Telefonní předvolba"
   },
   "confirm": {
     "heading": "Zkontrolujte zadané údaje",
@@ -139,7 +134,6 @@
     "note": "Každé euro i každý dotaz pomáhá. Děkujeme, že myslíte na pejsky v útulcích."
   },
   "a11y": {
-    "loading": "Načítá se…",
     "stepper": "Průběh formuláře"
   }
 }

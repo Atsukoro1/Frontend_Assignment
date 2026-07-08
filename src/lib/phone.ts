@@ -1,8 +1,5 @@
 /** Supported dial prefixes — Slovakia and Czechia. */
-export const PHONE_PREFIXES = [
-  { prefix: "+421", flag: "🇸🇰", labelKey: "donors.prefixSk" },
-  { prefix: "+420", flag: "🇨🇿", labelKey: "donors.prefixCz" },
-] as const;
+export const PHONE_PREFIXES = [{ prefix: "+421" }, { prefix: "+420" }] as const;
 
 export type PhonePrefix = (typeof PHONE_PREFIXES)[number]["prefix"];
 
