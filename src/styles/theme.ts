@@ -99,3 +99,8 @@ export const media = {
   md: `@media (min-width: ${theme.breakpoints.md})`,
   lg: `@media (min-width: ${theme.breakpoints.lg})`,
 } as const;
+
+/** Max-width counterparts for below-breakpoint rules. */
+export const mediaMax = {
+  sm: `@media (max-width: ${parseInt(theme.breakpoints.sm, 10) - 1}px)`,
+} as const;

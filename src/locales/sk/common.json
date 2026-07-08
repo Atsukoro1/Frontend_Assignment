@@ -35,7 +35,7 @@
   "wizard": {
     "stepLabel": "Krok {{current}} z {{total}}",
     "steps": {
-      "help": "Forma pomoci",
+      "help": "Výber útulku",
       "details": "Osobné údaje",
       "confirm": "Potvrdenie"
     },

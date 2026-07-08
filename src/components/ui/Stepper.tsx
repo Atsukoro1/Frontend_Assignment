@@ -1,11 +1,14 @@
 "use client";
 
-import { Check, PawPrint } from "lucide-react";
+import { Check } from "lucide-react";
 import styled, { css } from "styled-components";
+
+import { mediaMax } from "@/styles/theme";
 
 const List = styled.ol`
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.xs};
   list-style: none;
   padding: 0;
   margin: 0;
@@ -13,35 +16,36 @@ const List = styled.ol`
 
 const Step = styled.li`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: ${({ theme }) => theme.space.xxs};
-  flex: 1;
-  max-width: 9rem;
-  position: relative;
+  gap: ${({ theme }) => theme.space.xs};
 
-  /* Connector line between step markers. */
-  &:not(:first-child)::before {
-    content: "";
-    position: absolute;
-    top: 1.25rem;
-    right: calc(50% + 1.75rem);
-    width: calc(100% - 3.5rem);
-    height: 2px;
-    border-radius: 1px;
-    background: ${({ theme }) => theme.colors.border};
+  /* Connector line towards the next step. */
+  &:not(:last-child) {
+    flex: 1;
+
+    &::after {
+      content: "";
+      flex: 1;
+      min-width: ${({ theme }) => theme.space.md};
+      height: 2px;
+      border-radius: 1px;
+      background: ${({ theme }) => theme.colors.border};
+    }
   }
 `;
 
 type StepState = "done" | "current" | "upcoming";
 
 const Marker = styled.span<{ $state: StepState }>`
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: ${({ theme }) => theme.radii.pill};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-weight: 800;
   transition:
     background ${({ theme }) => theme.transitions.base},
     color ${({ theme }) => theme.transitions.base},
@@ -58,7 +62,7 @@ const Marker = styled.span<{ $state: StepState }>`
         return css`
           background: ${theme.colors.primary};
           color: ${theme.colors.textOnPrimary};
-          box-shadow: 0 0 0 5px ${theme.colors.primarySoft};
+          box-shadow: 0 0 0 4px ${theme.colors.primarySoft};
         `;
       default:
         return css`
@@ -72,9 +76,22 @@ const Marker = styled.span<{ $state: StepState }>`
 const StepLabel = styled.span<{ $state: StepState }>`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   font-weight: 700;
-  text-align: center;
+  white-space: nowrap;
   color: ${({ theme, $state }) =>
     $state === "upcoming" ? theme.colors.textMuted : theme.colors.heading};
+
+  /* On narrow screens only the active step keeps its label. */
+  ${mediaMax.sm} {
+    ${({ $state }) =>
+      $state !== "current" &&
+      css`
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+      `}
+  }
 `;
 
 interface StepperProps {
@@ -94,7 +111,7 @@ export function Stepper({ steps, current, "aria-label": ariaLabel }: StepperProp
           return (
             <Step key={label} aria-current={state === "current" ? "step" : undefined}>
               <Marker $state={state} aria-hidden="true">
-                {state === "done" ? <Check size={18} strokeWidth={3} /> : <PawPrint size={18} />}
+                {state === "done" ? <Check size={16} strokeWidth={3} /> : index + 1}
               </Marker>
               <StepLabel $state={state}>{label}</StepLabel>
             </Step>

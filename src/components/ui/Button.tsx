@@ -2,7 +2,7 @@
 
 import styled, { css } from "styled-components";
 
-export type ButtonVariant = "primary" | "secondary" | "ghost";
+export type ButtonVariant = "primary" | "secondary" | "muted" | "ghost";
 
 /**
  * Themed button. `$variant` defaults to primary (brown, cream text);
@@ -46,6 +46,15 @@ export const Button = styled.button<{ $variant?: ButtonVariant; $fullWidth?: boo
           background: ${theme.colors.surface};
           border-color: ${theme.colors.borderStrong};
           color: ${theme.colors.primary};
+
+          &:hover:not(:disabled) {
+            background: ${theme.colors.primarySoft};
+          }
+        `;
+      case "muted":
+        return css`
+          background: ${theme.colors.surfaceMuted};
+          color: ${theme.colors.heading};
 
           &:hover:not(:disabled) {
             background: ${theme.colors.primarySoft};
