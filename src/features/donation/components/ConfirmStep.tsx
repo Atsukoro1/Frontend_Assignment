@@ -176,12 +176,7 @@ export function ConfirmStep({ headingRef, onSuccess }: ConfirmStepProps) {
       ) : null}
 
       <ButtonRow>
-        <Button
-          type="button"
-          $variant="ghost"
-          onClick={goBack}
-          disabled={submitDonation.isPending}
-        >
+        <Button type="button" $variant="ghost" onClick={goBack} disabled={submitDonation.isPending}>
           {t("wizard.back")}
         </Button>
         <Button type="submit" disabled={submitDonation.isPending}>

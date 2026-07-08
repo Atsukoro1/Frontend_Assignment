@@ -1,8 +1,7 @@
 import { ApiError } from "@/api/client";
 
 export type SubmitErrorDescriptor =
-  | { kind: "key"; key: "errors.network" | "errors.submitFailed" }
-  | { kind: "text"; text: string };
+  { kind: "key"; key: "errors.network" | "errors.submitFailed" } | { kind: "text"; text: string };
 
 /**
  * Maps a failed submit to something human-readable. Server messages are

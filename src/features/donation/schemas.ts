@@ -68,9 +68,11 @@ export const donorSchema = z.object({
     .min(1, "validation.lastNameRequired")
     .min(2, "validation.lastNameLength")
     .max(30, "validation.lastNameLength"),
-  email: z.string().trim().min(1, "validation.emailRequired").pipe(
-    z.email({ error: "validation.emailInvalid" }),
-  ),
+  email: z
+    .string()
+    .trim()
+    .min(1, "validation.emailRequired")
+    .pipe(z.email({ error: "validation.emailInvalid" })),
   phonePrefix: z.enum(PHONE_PREFIX_VALUES),
   /** Optional — validated only when the user typed something. */
   phoneNumber: z

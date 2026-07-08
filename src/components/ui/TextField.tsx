@@ -35,7 +35,15 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   ref?: Ref<HTMLInputElement>;
 }
 
-export function TextField({ label, optionalTag, error, hint, suffix, id, ...rest }: TextFieldProps) {
+export function TextField({
+  label,
+  optionalTag,
+  error,
+  hint,
+  suffix,
+  id,
+  ...rest
+}: TextFieldProps) {
   const generatedId = useId();
   const fieldId = id ?? generatedId;
   const errorId = `${fieldId}-error`;

@@ -109,8 +109,7 @@ const Chip = styled.button<{ $selected: boolean }>`
     ${({ theme, $selected }) => ($selected ? theme.colors.primary : theme.colors.border)};
   background: ${({ theme, $selected }) =>
     $selected ? theme.colors.primary : theme.colors.surface};
-  color: ${({ theme, $selected }) =>
-    $selected ? theme.colors.textOnPrimary : theme.colors.text};
+  color: ${({ theme, $selected }) => ($selected ? theme.colors.textOnPrimary : theme.colors.text)};
   font-weight: 700;
   transition:
     background ${({ theme }) => theme.transitions.fast},
