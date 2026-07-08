@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { House, PawPrint } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { Ref } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -13,93 +13,109 @@ import { Button } from "@/components/ui/Button";
 import { ErrorMessage } from "@/components/ui/fieldStyles";
 import { SelectField } from "@/components/ui/SelectField";
 import { Skeleton } from "@/components/ui/Skeleton";
-import { TextField } from "@/components/ui/TextField";
 import { parseAmount } from "@/lib/currency";
 import { useValidationMessage } from "@/lib/useValidationMessage";
-import { media } from "@/styles/theme";
 
 import { AMOUNT_OPTIONS, helpStepSchema, type HelpStepValues } from "../schemas";
 import { useDonationStore } from "../store";
 import { ButtonRow, Fieldset, Legend, StepForm, StepHeading } from "./stepShared";
 
-const HelpGrid = styled.div`
-  display: grid;
-  gap: ${({ theme }) => theme.space.sm};
+const Segmented = styled.div`
+  display: flex;
+  border: 1.5px solid ${({ theme }) => theme.colors.borderStrong};
+  border-radius: ${({ theme }) => theme.radii.md};
+  background: ${({ theme }) => theme.colors.surface};
+  overflow: hidden;
+`;
 
-  ${media.sm} {
-    grid-template-columns: 1fr 1fr;
+const SegmentOption = styled.div`
+  position: relative;
+  display: flex;
+  flex: 1;
+
+  & + & {
+    border-left: 1.5px solid ${({ theme }) => theme.colors.border};
   }
 `;
 
-const HelpOption = styled.div`
-  position: relative;
-`;
-
-const HelpCard = styled.label`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.space.xs};
-  height: 100%;
-  padding: ${({ theme }) => theme.space.md};
-  border: 2px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.radii.lg};
-  background: ${({ theme }) => theme.colors.surface};
+const SegmentLabel = styled.label`
+  flex: 1;
+  padding: ${({ theme }) => `${theme.space.sm} ${theme.space.xs}`};
+  text-align: center;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.textMuted};
   cursor: pointer;
   transition:
-    border-color ${({ theme }) => theme.transitions.fast},
     background ${({ theme }) => theme.transitions.fast},
-    transform ${({ theme }) => theme.transitions.fast};
+    color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.borderStrong};
-    transform: translateY(-1px);
+    color: ${({ theme }) => theme.colors.heading};
   }
 `;
 
-const HiddenRadio = styled.input`
+const SegmentRadio = styled.input`
   position: absolute;
   width: 1px;
   height: 1px;
   opacity: 0;
 
-  &:checked + ${HelpCard} {
-    border-color: ${({ theme }) => theme.colors.primary};
-    background: ${({ theme }) => theme.colors.primarySoft};
+  &:checked + ${SegmentLabel} {
+    background: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.textOnPrimary};
   }
 
-  &:focus-visible + ${HelpCard} {
+  &:focus-visible + ${SegmentLabel} {
     outline: 3px solid ${({ theme }) => theme.colors.focus};
-    outline-offset: 2px;
+    outline-offset: -3px;
   }
 `;
 
-const HelpIcon = styled.span`
-  display: inline-flex;
-  align-items: center;
+const AmountDisplay = styled.div`
+  display: flex;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: ${({ theme }) => theme.radii.pill};
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.textOnPrimary};
+  align-items: baseline;
+  gap: ${({ theme }) => theme.space.xs};
+  margin: ${({ theme }) => `${theme.space.sm} 0 ${theme.space.md}`};
 `;
 
-const HelpTitle = styled.span`
+const AmountInput = styled.input<{ $invalid?: boolean }>`
+  width: 8ch;
+  text-align: center;
+  font-size: ${({ theme }) => theme.fontSizes.display};
   font-weight: 800;
   color: ${({ theme }) => theme.colors.heading};
-  line-height: 1.3;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid
+    ${({ theme, $invalid }) => ($invalid ? theme.colors.error : theme.colors.borderStrong)};
+  padding: ${({ theme }) => `0 ${theme.space.xxs}`};
+  transition: border-color ${({ theme }) => theme.transitions.fast};
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.textMuted};
+    opacity: 0.5;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-bottom-color: ${({ theme, $invalid }) =>
+      $invalid ? theme.colors.error : theme.colors.focus};
+  }
 `;
 
-const HelpDescription = styled.span`
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+const EuroSign = styled.span`
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+  font-weight: 800;
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
 const ChipRow = styled.div`
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: ${({ theme }) => theme.space.xs};
-  margin-bottom: ${({ theme }) => theme.space.sm};
 `;
 
 const Chip = styled.button<{ $selected: boolean }>`
@@ -121,12 +137,18 @@ const Chip = styled.button<{ $selected: boolean }>`
   }
 `;
 
+const CenteredError = styled(ErrorMessage)`
+  justify-content: center;
+`;
+
 const ShelterFallback = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.space.sm};
   align-items: flex-start;
 `;
+
+const AMOUNT_ERROR_ID = "amount-error";
 
 export function HelpStep({ headingRef }: { headingRef: Ref<HTMLHeadingElement> }) {
   const { t } = useTranslation();
@@ -164,38 +186,26 @@ export function HelpStep({ headingRef }: { headingRef: Ref<HTMLHeadingElement> }
 
       <Fieldset>
         <Legend>{t("help.helpTypeLegend")}</Legend>
-        <HelpGrid role="radiogroup" aria-label={t("help.helpTypeLegend")}>
-          <HelpOption>
-            <HiddenRadio
+        <Segmented role="radiogroup" aria-label={t("help.helpTypeLegend")}>
+          <SegmentOption>
+            <SegmentRadio
               type="radio"
               id="help-type-shelter"
               value="shelter"
               {...register("helpType")}
             />
-            <HelpCard htmlFor="help-type-shelter">
-              <HelpIcon aria-hidden="true">
-                <House size={20} />
-              </HelpIcon>
-              <HelpTitle>{t("help.optionShelter.title")}</HelpTitle>
-              <HelpDescription>{t("help.optionShelter.description")}</HelpDescription>
-            </HelpCard>
-          </HelpOption>
-          <HelpOption>
-            <HiddenRadio
+            <SegmentLabel htmlFor="help-type-shelter">{t("help.optionShelter.title")}</SegmentLabel>
+          </SegmentOption>
+          <SegmentOption>
+            <SegmentRadio
               type="radio"
               id="help-type-general"
               value="general"
               {...register("helpType")}
             />
-            <HelpCard htmlFor="help-type-general">
-              <HelpIcon aria-hidden="true">
-                <PawPrint size={20} />
-              </HelpIcon>
-              <HelpTitle>{t("help.optionGeneral.title")}</HelpTitle>
-              <HelpDescription>{t("help.optionGeneral.description")}</HelpDescription>
-            </HelpCard>
-          </HelpOption>
-        </HelpGrid>
+            <SegmentLabel htmlFor="help-type-general">{t("help.optionGeneral.title")}</SegmentLabel>
+          </SegmentOption>
+        </Segmented>
         {errors.helpType ? <ErrorMessage>{tv(errors.helpType.message)}</ErrorMessage> : null}
       </Fieldset>
 
@@ -240,6 +250,19 @@ export function HelpStep({ headingRef }: { headingRef: Ref<HTMLHeadingElement> }
 
       <Fieldset>
         <Legend>{t("help.amountLegend")}</Legend>
+        <AmountDisplay>
+          <AmountInput
+            aria-label={t("help.customAmountLabel")}
+            placeholder="0"
+            inputMode="decimal"
+            autoComplete="off"
+            aria-invalid={errors.amount ? true : undefined}
+            aria-describedby={errors.amount ? AMOUNT_ERROR_ID : undefined}
+            $invalid={Boolean(errors.amount)}
+            {...register("amount")}
+          />
+          <EuroSign aria-hidden="true">€</EuroSign>
+        </AmountDisplay>
         <ChipRow>
           {AMOUNT_OPTIONS.map((option) => {
             const selected = parsedAmount === option;
@@ -262,19 +285,16 @@ export function HelpStep({ headingRef }: { headingRef: Ref<HTMLHeadingElement> }
             );
           })}
         </ChipRow>
-        <TextField
-          label={t("help.customAmountLabel")}
-          placeholder={t("help.customAmountPlaceholder")}
-          inputMode="decimal"
-          autoComplete="off"
-          suffix="€"
-          error={tv(errors.amount?.message)}
-          {...register("amount")}
-        />
+        {errors.amount ? (
+          <CenteredError id={AMOUNT_ERROR_ID}>{tv(errors.amount.message)}</CenteredError>
+        ) : null}
       </Fieldset>
 
       <ButtonRow>
-        <Button type="submit">{t("wizard.next")}</Button>
+        <Button type="submit">
+          {t("wizard.next")}
+          <ArrowRight size={16} aria-hidden="true" />
+        </Button>
       </ButtonRow>
     </StepForm>
   );

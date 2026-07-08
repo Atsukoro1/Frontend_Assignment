@@ -45,7 +45,7 @@
     "submitting": "Odosielame…"
   },
   "help": {
-    "heading": "Vyberte si formu pomoci",
+    "heading": "Vyberte si možnosť, ako chcete pomôcť",
     "helpTypeLegend": "Forma pomoci",
     "optionShelter": {
       "title": "Prispieť konkrétnemu útulku",
@@ -61,7 +61,7 @@
     "shelterLoadError": "Zoznam útulkov sa nepodarilo načítať.",
     "sheltersEmpty": "Momentálne nie sú k dispozícii žiadne útulky.",
     "retry": "Skúsiť znova",
-    "amountLegend": "Suma príspevku",
+    "amountLegend": "Suma, ktorou chcem prispieť",
     "customAmountLabel": "Vlastná suma",
     "customAmountPlaceholder": "napr. 25"
   },
